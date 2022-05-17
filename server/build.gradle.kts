@@ -3,7 +3,19 @@ plugins {
     jacoco
 }
 
+val ktorVersion = "2.0.1"
+val slf4jVersion = "1.7.36"
+
 dependencies {
+    implementation("io.ktor", "ktor-server-netty-jvm", ktorVersion)
+    implementation("io.ktor", "ktor-server-status-pages", ktorVersion)
+    implementation("io.ktor", "ktor-server-html-builder", ktorVersion)
+
+    implementation("org.slf4j", "slf4j-api", slf4jVersion)
+    implementation("org.slf4j", "slf4j-simple", slf4jVersion)
+
+    implementation("io.insert-koin", "koin-core", "3.1.6")
+
     testImplementation(kotlin("test"))
 }
 
