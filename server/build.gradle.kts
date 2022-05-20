@@ -24,6 +24,8 @@ dependencies {
 
     implementation("org.postgresql", "postgresql", "42.3.5")
 
+    implementation("org.yaml", "snakeyaml", "1.30")
+
     testImplementation(kotlin("test"))
 }
 
