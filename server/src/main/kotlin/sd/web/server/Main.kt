@@ -25,10 +25,13 @@ fun main() {
 
     val services = module {
         single { DBService() }
+        single { StudentService() }
+        single { StudentViewService() }
     }
 
     val controllers = module {
         single { StudentViewController() } bind Controller::class
+        single { StudentRestController() } bind Controller::class
     }
 
     startKoin {

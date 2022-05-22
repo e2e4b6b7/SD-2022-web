@@ -11,3 +11,5 @@ data class HomeworkWithId(
     val deadline: Instant?,
     val description: String?
 )
+
+fun Homework.addId(id: Int): HomeworkWithId = HomeworkWithId(id, title, publicationTime, deadline, description)

@@ -64,6 +64,10 @@ class DBService : KoinComponent {
         SubmissionTable.select { SubmissionTable.id eq id }.firstOrNull()?.asSubmission
     }
 
+    fun submissions(): List<SubmissionWithId> = transaction(db) {
+        SubmissionTable.selectAll().map { it.asSubmissionWithId }
+    }
+
     fun checker(id: Int): Checker? = transaction(db) {
         CheckerTable.select { CheckerTable.id eq id }.firstOrNull()?.asChecker
     }
