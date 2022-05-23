@@ -3,7 +3,7 @@ package sd.web.runner
 import com.google.gson.GsonBuilder
 import com.rabbitmq.client.*
 import sd.web.server.MessageBrokerConfig
-import sd.web.server.data.SubmissionWithCheckers
+import sd.web.server.data.*
 
 class RabbitMQConsumer(config: MessageBrokerConfig): AutoCloseable {
 
