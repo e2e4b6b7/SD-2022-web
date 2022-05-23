@@ -15,7 +15,7 @@ class TeacherViewService : KoinComponent {
     }
 
     fun getHomeworksPage(): HTML.() -> Unit = {
-        homeworksListPage(teacherService.getHomeworks().filter { it.publicationTime >= Instant.now() }
+        homeworksListPage(teacherService.getHomeworks().filter { it.publicationTime <= Instant.now() }
             .sortedBy { it.publicationTime }, Role.TEACHER
         )
     }
