@@ -2,7 +2,9 @@ package sd.web.server
 
 import io.ktor.server.application.*
 import io.ktor.server.html.*
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.html.body
 import org.koin.java.KoinJavaComponent.getKoin
 
 class TeacherViewController : Controller {
@@ -10,7 +12,12 @@ class TeacherViewController : Controller {
     override fun Routing.config() {
         route("/teacher") {
             get("/homework/") {
-                call.respondHtml { teacherViewService.getHomeworksPage() }
+                call.respondHtml {
+//                    body {
+//                        text("kek")
+//                    }
+                    teacherViewService.getHomeworksPage()
+                }
             }
 
             get("/homework/{homeworkId}") {

@@ -10,71 +10,74 @@ enum class Role(val root: String) {
 }
 
 fun HTML.homeworksListPage(homeworks: List<HomeworkWithId>, role: Role) {
-    head {
-        title {
-            +"Homeworks"
-        }
-    }
     body {
-        if (role == Role.TEACHER) {
-            text("New homework")
-            form(action = "${role.root}/api/homework/", method = FormMethod.post) {
-                name = "New homework"
-                input(type = InputType.text, name = "title") {
-                    required = true
-                    placeholder = "Title"
-                }
-                br
-
-                label { +"Publication date and time:" }
-                br
-                input(type = InputType.dateTimeLocal, name = "publicationDate") {
-                    required = true
-                }
-                br
-
-                label { +"Deadline:" }
-                br
-                input(type = InputType.dateTimeLocal, name = "deadline")
-                br
-
-                textArea(cols = "120", rows = "10") {
-                    name = "description"
-                    placeholder = "Description"
-                }
-                br
-
-                textArea(cols = "120", rows = "10") {
-                    name = "checkScript"
-                    required = true
-                    placeholder = "Checking bash script"
-                }
-                br
-
-                input(type = InputType.submit)
-            }
-        }
-        table(classes = "border") {
-            tr {
-                th { +"ID" }
-                th { +"Title" }
-                th { +"Publication time" }
-                th { +"Deadline" }
-            }
-            homeworks.forEach {
-                tr {
-                    td {
-                        a(href = "${role.root}/homework/${it.id}") {
-                            +it.id.toString()
-                        }
-                    }
-                    td { +it.title }
-                    td { +it.publicationTime.toString() }
-                    td { +it.deadline.toString() }
-                }
-            }
-        }
+        text("kek")
     }
+//    head {
+//        title {
+//            +"Homeworks"
+//        }
+//    }
+//    body {
+//        if (role == Role.TEACHER) {
+//            text("New homework")
+//            form(action = "${role.root}/api/homework/", method = FormMethod.post) {
+//                name = "New homework"
+//                input(type = InputType.text, name = "title") {
+//                    required = true
+//                    placeholder = "Title"
+//                }
+//                br
+//
+//                label { +"Publication date and time:" }
+//                br
+//                input(type = InputType.dateTimeLocal, name = "publicationDate") {
+//                    required = true
+//                }
+//                br
+//
+//                label { +"Deadline:" }
+//                br
+//                input(type = InputType.dateTimeLocal, name = "deadline")
+//                br
+//
+//                textArea(cols = "120", rows = "10") {
+//                    name = "description"
+//                    placeholder = "Description"
+//                }
+//                br
+//
+//                textArea(cols = "120", rows = "10") {
+//                    name = "checkScript"
+//                    required = true
+//                    placeholder = "Checking bash script"
+//                }
+//                br
+//
+//                input(type = InputType.submit)
+//            }
+//        }
+//        table(classes = "border") {
+//            tr {
+//                th { +"ID" }
+//                th { +"Title" }
+//                th { +"Publication time" }
+//                th { +"Deadline" }
+//            }
+//            homeworks.forEach {
+//                tr {
+//                    td {
+//                        a(href = "${role.root}/homework/${it.id}") {
+//                            +it.id.toString()
+//                        }
+//                    }
+//                    td { +it.title }
+//                    td { +it.publicationTime.toString() }
+//                    td { +it.deadline.toString() }
+//                }
+//            }
+//        }
+//    }
 }
 
 fun HTML.homeworkPage(homework: HomeworkWithId?, role: Role) {

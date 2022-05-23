@@ -1,6 +1,7 @@
 package sd.web.server
 
 import kotlinx.html.HTML
+import kotlinx.html.body
 import org.koin.core.component.KoinComponent
 import sd.web.server.data.addId
 import java.time.Instant
@@ -14,9 +15,15 @@ class TeacherViewService : KoinComponent {
 
     fun getHomeworksPage(): HTML.() -> Unit {
         return {
-            homeworksListPage(teacherService.getHomeworks().filter { it.publicationTime >= Instant.now() }
-                .sortedBy { it.publicationTime }, Role.TEACHER
-            )
+            body {
+                text("kek")
+            }
+//            homeworksListPage(
+//                listOf(),
+////                teacherService.getHomeworks().filter { it.publicationTime >= Instant.now() }
+////                .sortedBy { it.publicationTime },
+//                Role.TEACHER
+//            )
         }
     }
 
