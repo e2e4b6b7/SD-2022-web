@@ -18,8 +18,6 @@ class Runner {
     private fun cloneRepository(githubUrl: String): Boolean {
         return ProcessBuilder("git clone $githubUrl".split(" "))
             .directory(ROOT_PATH.toFile())
-            .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-            .redirectError(ProcessBuilder.Redirect.INHERIT)
             .start()
             .waitFor(10, TimeUnit.MINUTES)
     }
@@ -27,8 +25,6 @@ class Runner {
     private fun runChecker(checkerCommand: String, repositoryName: String): Process {
         return ProcessBuilder(checkerCommand)
             .directory(ROOT_PATH.resolve(repositoryName).toFile())
-            .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-            .redirectError(ProcessBuilder.Redirect.INHERIT)
             .start()
     }
 
