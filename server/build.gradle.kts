@@ -28,14 +28,14 @@ dependencies {
 
     implementation("org.postgresql", "postgresql", "42.3.5")
 
+    implementation("com.rabbitmq", "amqp-client", "5.14.2")
+
+    implementation("com.google.code.gson", "gson", "2.9.0")
+
     implementation("org.yaml", "snakeyaml", "1.30")
 
     testImplementation("com.h2database", "h2", "2.1.212")
     testImplementation("io.mockk", "mockk", "1.12.4")
-
-    implementation("com.rabbitmq:amqp-client:5.14.2")
-
-    implementation("com.google.code.gson:gson:2.9.0")
 }
 
 tasks.register("fatJar", type = Jar::class) {
