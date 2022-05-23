@@ -1,6 +1,11 @@
 db:
-  user:
-  password:
+  user: postgres
+  password: ""
   hosts:
     - hostname: localhost
       port: 5432
+messageBroker:
+  queueName: runners
+  host:
+      hostname: localhost
+      port: 5672

@@ -8,4 +8,6 @@ data class SubmissionWithId(val id: Int, val homeworkId: Int, val time: Instant,
 
 data class SubmissionWithChecks(val submission: SubmissionWithId, val checks: List<SubmissionCheck>)
 
+data class SubmissionWithCheckers(val submission: SubmissionWithId, val checkers: List<CheckerWithId>)
+
 fun Submission.addId(id: Int): SubmissionWithId = SubmissionWithId(id, homeworkId, time, solution)

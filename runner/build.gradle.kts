@@ -3,8 +3,17 @@ plugins {
     jacoco
 }
 
+val koinVersion = "3.1.6"
+
 dependencies {
+    implementation(project(":server"))
     testImplementation(kotlin("test"))
+
+    implementation("io.insert-koin", "koin-core", koinVersion)
+    testImplementation("io.insert-koin", "koin-test-junit5", koinVersion)
+
+    implementation("com.rabbitmq:amqp-client:5.14.2")
+    implementation("com.google.code.gson:gson:2.9.0")
 }
 
 tasks.register("fatJar", type = Jar::class) {

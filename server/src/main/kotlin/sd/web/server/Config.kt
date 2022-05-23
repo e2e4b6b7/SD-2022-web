@@ -10,6 +10,7 @@ val configPath = Path("config.yml")
 
 class Config {
     lateinit var db: DBConfig
+    lateinit var messageBroker: MessageBrokerConfig
 }
 
 class DBConfig {
@@ -21,6 +22,11 @@ class DBConfig {
 class Host {
     lateinit var hostname: String
     var port: Int by Delegates.notNull()
+}
+
+class MessageBrokerConfig {
+    lateinit var queueName: String
+    lateinit var host: Host
 }
 
 fun getConfig(): Config {

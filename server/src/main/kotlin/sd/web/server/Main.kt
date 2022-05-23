@@ -4,6 +4,7 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.bind
 import org.koin.dsl.module
 import org.postgresql.ds.PGConnectionPoolDataSource
+import sd.web.server.checker.CheckerConnectionInfo
 import sd.web.server.db.DBService
 import javax.sql.ConnectionPoolDataSource
 
@@ -15,6 +16,9 @@ fun dbConnection(config: DBConfig): ConnectionPoolDataSource =
         serverNames = config.hosts.map { it.hostname }.toTypedArray()
         portNumbers = config.hosts.map { it.port }.toIntArray()
     }
+
+fun checkerConnectionInfo(config: MessageBrokerConfig): CheckerConnectionInfo =
+    CheckerConnectionInfo(config)
 
 val services = module {
     single { DBService() }
@@ -32,6 +36,7 @@ fun main() {
 
     val common = module {
         single { dbConnection(config.db) }
+        single { checkerConnectionInfo(config.messageBroker) }
     }
 
     startKoin {

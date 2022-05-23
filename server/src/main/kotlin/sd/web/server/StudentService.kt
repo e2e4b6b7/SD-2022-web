@@ -1,11 +1,13 @@
 package sd.web.server
 
 import org.koin.core.component.KoinComponent
+import sd.web.server.checker.CheckerService
 import sd.web.server.data.*
 import sd.web.server.db.DBService
 
 class StudentService : KoinComponent {
     private val dbService: DBService = getKoin().get()
+    private val checkerService: CheckerService = getKoin().get()
     fun submit(submission: Submission): Int {
         val submissionId = dbService.addSubmission(submission)
         TODO("Check of submission and return submission ID")
