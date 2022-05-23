@@ -10,22 +10,22 @@ class TeacherViewController : Controller {
     override fun Routing.config() {
         route("/teacher") {
             get("/homework/") {
-                call.respondHtml { teacherViewService.getHomeworksPage() }
+                call.respondHtml { teacherViewService.getHomeworksPage()() }
             }
 
             get("/homework/{homeworkId}") {
                 val homeworkId = call.parameters["homeworkId"]
-                call.respondHtml { teacherViewService.getHomeworkPage(homeworkId!!.toInt()) }
+                call.respondHtml { teacherViewService.getHomeworkPage(homeworkId!!.toInt())() }
             }
 
             get("/submission/") {
-                call.respondHtml { teacherViewService.getSubmissionsPage() }
+                call.respondHtml { teacherViewService.getSubmissionsPage()() }
             }
 
             get("/submission/{submissionId}") {
                 val submissionId = call.parameters["submissionId"]
                 call.respondHtml {
-                    teacherViewService.getSubmissionPage(submissionId!!.toInt())
+                    teacherViewService.getSubmissionPage(submissionId!!.toInt())()
                 }
             }
         }
