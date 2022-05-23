@@ -5,6 +5,7 @@ import sd.web.server.data.*
 import sd.web.server.db.tables.Checker
 import sd.web.server.db.tables.Homework
 import sd.web.server.db.tables.Submission
+import sd.web.server.db.tables.SubmissionCheck as SubmissionCheckTable
 
 val ResultRow.asHomework: sd.web.server.data.Homework
     get() = Homework(
@@ -47,4 +48,12 @@ val ResultRow.asCheckerWithId: CheckerWithId
     get() = CheckerWithId(
         this[Checker.id].value,
         this[Checker.command]
+    )
+
+val ResultRow.asSubmissionCheck: SubmissionCheck
+    get() = SubmissionCheck(
+        this[SubmissionCheckTable.submissionId],
+        this[SubmissionCheckTable.checkerId],
+        this[SubmissionCheckTable.mark],
+        this[SubmissionCheckTable.output]
     )

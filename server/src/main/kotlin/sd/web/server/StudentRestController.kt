@@ -14,14 +14,6 @@ import sd.web.server.data.Submission
 class StudentRestController : Controller {
     private val studentService: StudentService = getKoin().get()
     override fun Routing.config() {
-        application.install(StatusPages) {
-            exception<NumberFormatException> { call, e ->
-                call.respond(HttpStatusCode.BadRequest, e.message ?: "")
-            }
-            exception<Exception> { call, e ->
-                call.respond(HttpStatusCode.InternalServerError, e.message ?: "")
-            }
-        }
         application.install(ContentNegotiation) {
             json()
         }
@@ -37,12 +29,12 @@ class StudentRestController : Controller {
             }
 
             get("/submission/") {
-                call.respond(studentService.getSubmissions())
+                call.respond(studentService.getSubmissionsWithChecks())
             }
 
             get("/submission/{submissionId}") {
                 val submissionId = call.parameters["submissionId"]
-                call.respond(studentService.getHomeworkById(submissionId!!.toInt())!!)
+                call.respond(studentService.getSubmissionWithChecks(submissionId!!.toInt())!!)
             }
 
             post("/submission/") {

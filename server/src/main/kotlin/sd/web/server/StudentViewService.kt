@@ -21,13 +21,13 @@ class StudentViewService : KoinComponent {
     }
 
     fun getSubmissionPage(submissionId: Int): HTML.() -> Unit {
-        return { submissionPage(studentService.getSubmission(submissionId), Role.STUDENT) }
+        return { submissionPage(studentService.getSubmissionWithChecks(submissionId), Role.STUDENT) }
     }
 
     fun getSubmissionsPage(): HTML.() -> Unit {
         return {
             submissionsListPage(
-                studentService.getSubmissions().sortedBy { it.time }.reversed(), Role.STUDENT
+                studentService.getSubmissionsWithChecks().sortedBy { it.submission.time }.reversed(), Role.STUDENT
             )
         }
     }

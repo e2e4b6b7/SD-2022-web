@@ -20,13 +20,13 @@ fun HTML.homeworksListPage(homeworks: List<HomeworkWithId>, role: Role) {
             text("New homework")
             form(action = "${role.root}/homework/", method = FormMethod.post) {
                 name = "New homework"
-                input(type = InputType.text, name = "title",) {
+                input(type = InputType.text, name = "title") {
                     required = true
                     placeholder = "Title"
                 }
                 br
 
-                label { +"Publication date and time:"}
+                label { +"Publication date and time:" }
                 br
                 input(type = InputType.dateTimeLocal, name = "publicationDate") {
                     required = true
@@ -38,13 +38,13 @@ fun HTML.homeworksListPage(homeworks: List<HomeworkWithId>, role: Role) {
                 input(type = InputType.dateTimeLocal, name = "deadline")
                 br
 
-                textArea (cols = "120", rows = "10") {
+                textArea(cols = "120", rows = "10") {
                     name = "description"
                     placeholder = "Description"
                 }
                 br
 
-                textArea (cols = "120", rows = "10"){
+                textArea(cols = "120", rows = "10") {
                     name = "checkScript"
                     required = true
                     placeholder = "Checking bash script"
@@ -54,7 +54,7 @@ fun HTML.homeworksListPage(homeworks: List<HomeworkWithId>, role: Role) {
                 input(type = InputType.submit)
             }
         }
-        table(classes="border") {
+        table(classes = "border") {
             tr {
                 th { +"ID" }
                 th { +"Title" }
@@ -87,8 +87,7 @@ fun HTML.homeworkPage(homework: HomeworkWithId?, role: Role) {
         body {
             text("Null homework")
         }
-    }
-    else {
+    } else {
         head {
             title {
                 +"Homework: ${homework.title}"
@@ -133,7 +132,7 @@ fun HTML.homeworkPage(homework: HomeworkWithId?, role: Role) {
     }
 }
 
-fun HTML.submissionsListPage(submissions: List<SubmissionWithId>, role: Role) {
+fun HTML.submissionsListPage(submissionsWithCheck: List<SubmissionWithChecks>, role: Role) {
     head {
         title {
             +"Submissions"
@@ -147,17 +146,17 @@ fun HTML.submissionsListPage(submissions: List<SubmissionWithId>, role: Role) {
                 th { +"Homework ID" }
                 th { +"Checking result" }
             }
-            submissions.forEach {
+            submissionsWithCheck.forEach {
                 tr {
-                    td { +it.time.toString() }
+                    td { +it.submission.time.toString() }
                     td {
-                        a(href = "${role.root}/submission/${it.id}") { +it.id.toString() }
+                        a(href = "${role.root}/submission/${it.submission.id}") { +it.submission.id.toString() }
                     }
                     td {
-                        a(href = "${role.root}/homework/${it.homeworkId}") { +it.homeworkId.toString() }
+                        a(href = "${role.root}/homework/${it.submission.homeworkId}") { +it.submission.homeworkId.toString() }
                     }
                     td {
-                        +"TODO"
+                        +if (it.checks.all { it.mark }) "OK" else "FAILED"
                     }
                 }
             }
@@ -165,8 +164,8 @@ fun HTML.submissionsListPage(submissions: List<SubmissionWithId>, role: Role) {
     }
 }
 
-fun HTML.submissionPage(submission: Submission?, role: Role) {
-    if (submission == null) {
+fun HTML.submissionPage(submissionWithChecks: SubmissionWithChecks?, role: Role) {
+    if (submissionWithChecks == null) {
         head {
             title {
                 +"Null submission"
@@ -175,36 +174,43 @@ fun HTML.submissionPage(submission: Submission?, role: Role) {
         body {
             text("Null submission")
         }
-    }
-    else {
+    } else {
         head {
             title {
-                +"Submission for homework ${submission.homeworkId}"
+                +"Submission for homework ${submissionWithChecks.submission.homeworkId}"
             }
         }
         body {
             table {
                 tr {
                     th { +"Submission time" }
-                    td { +submission.time.toString() }
+                    td { +submissionWithChecks.submission.time.toString() }
                 }
                 tr {
                     th { +"Homework" }
                     td {
-                        a(href = "${role.root}/homework/${submission.homeworkId}") {
-                            +submission.homeworkId.toString()
+                        a(href = "${role.root}/homework/${submissionWithChecks.submission.homeworkId}") {
+                            +submissionWithChecks.submission.homeworkId.toString()
                         }
                     }
                 }
                 tr {
                     th { +"Solution" }
                     td {
-                        a(href = submission.solution) { +submission.solution }
+                        a(href = submissionWithChecks.submission.solution) { +submissionWithChecks.submission.solution }
                     }
                 }
-                tr {
-                    th { +"Checking result" }
-                    td { +"TODO" }
+
+                submissionWithChecks.checks.forEachIndexed { index, submissionCheck ->
+                    tr {
+                        th { +"Check $index" }
+                        td {
+                            +(
+                                "Mark: " + (if (submissionCheck.mark) "OK" else "FAILED") + "\n" +
+                                    "Output: ${submissionCheck.output}"
+                                )
+                        }
+                    }
                 }
             }
         }
