@@ -3,16 +3,24 @@ package sd.web.server
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
+import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
-import kotlinx.html.body
 import org.koin.java.KoinJavaComponent.getKoin
 
 class StudentViewController : Controller {
     private val studentViewService: StudentViewService = getKoin().get()
 
     override fun Routing.config() {
+        application.install(StatusPages) {
+            exception<NumberFormatException> { call, e ->
+                call.respond(HttpStatusCode.BadRequest, e.message ?: "")
+            }
+            exception<Exception> { call, e ->
+                call.respond(HttpStatusCode.InternalServerError, e.message ?: "")
+            }
+        }
+
         route("/student") {
             get("/homework/") {
                 call.respondHtml {
@@ -22,15 +30,10 @@ class StudentViewController : Controller {
 
             get("/homework/{homeworkId}") {
                 val homeworkId = call.parameters["homeworkId"]
-                if (homeworkId == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Homework ID isn't set")
-                } else if (homeworkId.toIntOrNull() == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Homework ID isn't integer")
-                } else {
-                    call.respondHtml {
-                        studentViewService.getHomeworkPage(homeworkId.toInt())
-                    }
+                call.respondHtml {
+                    studentViewService.getHomeworkPage(homeworkId!!.toInt())
                 }
+
             }
 
             get("/submission/") {
@@ -41,14 +44,8 @@ class StudentViewController : Controller {
 
             get("/submission/{submissionId}") {
                 val submissionId = call.parameters["submissionId"]
-                if (submissionId == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Submission ID isn't set")
-                } else if (submissionId.toIntOrNull() == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Submission ID isn't integer")
-                } else {
-                    call.respondHtml {
-                        studentViewService.getSubmissionPage(submissionId.toInt())
-                    }
+                call.respondHtml {
+                    studentViewService.getSubmissionPage(submissionId!!.toInt())
                 }
             }
         }

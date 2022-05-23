@@ -1,16 +1,31 @@
 package sd.web.server
 
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.statuspages.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.util.date.*
 import org.koin.java.KoinJavaComponent.getKoin
 import sd.web.server.data.Submission
 
 class StudentRestController : Controller {
     private val studentService: StudentService = getKoin().get()
     override fun Routing.config() {
+        application.install(StatusPages) {
+            exception<NumberFormatException> { call, e ->
+                call.respond(HttpStatusCode.BadRequest, e.message ?: "")
+            }
+            exception<Exception> { call, e ->
+                call.respond(HttpStatusCode.InternalServerError, e.message ?: "")
+            }
+        }
+        application.install(ContentNegotiation) {
+            json()
+        }
+
         route("/student") {
             get("/homework/") {
                 call.respond(studentService.getHomeworks())
@@ -18,13 +33,7 @@ class StudentRestController : Controller {
 
             get("/homework/{homeworkId}") {
                 val homeworkId = call.parameters["homeworkId"]
-                if (homeworkId == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Homework ID isn't set")
-                } else if (homeworkId.toIntOrNull() == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Homework ID isn't integer")
-                } else {
-                    call.respond(studentService.getHomeworkById(homeworkId.toInt()) ?: "Unknown homework")
-                }
+                call.respond(studentService.getHomeworkById(homeworkId!!.toInt())!!)
             }
 
             get("/submission/") {
@@ -33,39 +42,12 @@ class StudentRestController : Controller {
 
             get("/submission/{submissionId}") {
                 val submissionId = call.parameters["submissionId"]
-                if (submissionId == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Submission ID isn't set")
-                } else if (submissionId.toIntOrNull() == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Submission ID isn't integer")
-                } else {
-                    call.respond(studentService.getHomeworkById(submissionId.toInt()) ?: "Unknown submission")
-                }
+                call.respond(studentService.getHomeworkById(submissionId!!.toInt())!!)
             }
 
             post("/submission/") {
-                val solution = call.parameters["solution"]
-                val homeworkId = call.parameters["homeworkId"]
-                val submissionDateTime = call.parameters["submissionTime"]
-                if (submissionDateTime == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Submission time isn't set")
-                } else if (solution == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Solution isn't set")
-                } else if (homeworkId == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Homework ID isn't set")
-                } else if (homeworkId.toIntOrNull() == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Homework ID isn't integer")
-                } else {
-                    call.respond(
-                        HttpStatusCode.OK,
-                        studentService.submit(
-                            Submission(
-                                homeworkId.toInt(),
-                                submissionDateTime.fromHttpToGmtDate().toJvmDate().toInstant(),
-                                solution
-                            )
-                        )
-                    )
-                }
+                val submission = call.receive<Submission>()
+                call.respond(studentService.submit(submission))
             }
         }
     }

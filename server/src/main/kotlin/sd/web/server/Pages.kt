@@ -18,7 +18,7 @@ fun HTML.homeworksListPage(homeworks: List<HomeworkWithId>, role: Role) {
     body {
         if (role == Role.TEACHER) {
             text("New homework")
-            form(action = "${role.root}/homework", method = FormMethod.post) {
+            form(action = "${role.root}/homework/", method = FormMethod.post) {
                 name = "New homework"
                 input(type = InputType.text, name = "title") {
                     required = true
@@ -98,7 +98,7 @@ fun HTML.homeworkPage(homework: HomeworkWithId?, role: Role) {
             }
             if (role == Role.STUDENT) {
                 text("New submission")
-                form(action = "${role.root}/submission", method = FormMethod.post) {
+                form(action = "${role.root}/submission/", method = FormMethod.post) {
                     input(type = InputType.url, name = "solution") {
                         required = true
                         placeholder = "URL to github with solution"
@@ -106,7 +106,7 @@ fun HTML.homeworkPage(homework: HomeworkWithId?, role: Role) {
                     input(type = InputType.hidden, name = "homeworkId") {
                         value = homework.id.toString()
                     }
-                    input(type = InputType.hidden, name = "submissionTime") {
+                    input(type = InputType.hidden, name = "time") {
                         value = Instant.now().toHttpDateString()
                     }
                     input(type = InputType.submit)

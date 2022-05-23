@@ -12,6 +12,8 @@ dependencies {
     implementation("io.ktor", "ktor-server-netty-jvm", ktorVersion)
     implementation("io.ktor", "ktor-server-status-pages", ktorVersion)
     implementation("io.ktor", "ktor-server-html-builder", ktorVersion)
+    implementation("io.ktor", "ktor-server-content-negotiation", ktorVersion)
+    implementation("io.ktor", "ktor-serialization-kotlinx-json", ktorVersion)
 
     implementation("org.slf4j", "slf4j-api", slf4jVersion)
     implementation("org.slf4j", "slf4j-simple", slf4jVersion)
