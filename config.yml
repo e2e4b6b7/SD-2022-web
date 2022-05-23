@@ -1,0 +1,11 @@
+db:
+  user:
+  password:
+  hosts:
+    - hostname: localhost
+      port: 5432
+messageBroker:
+  queueName: runners
+  host:
+      hostname: localhost
+      port: 5672
