@@ -8,7 +8,6 @@ import sd.web.server.data.Homework
 import sd.web.server.data.HomeworkWithId
 import sd.web.server.db.DBService
 import java.time.Instant
-import kotlin.test.BeforeTest
 import kotlin.test.assertEquals
 
 internal class ExampleTest : BaseTest() {
@@ -28,8 +27,7 @@ internal class ExampleTest : BaseTest() {
 }
 
 internal class ExampleMockTest : BaseTestWithMockk() {
-    @BeforeTest // ну или в начале теста
-    fun `mock db`() {
+    private fun mockDB() {
         declareMock<DBService> {
             every { homeworks() } returns
                 listOf(HomeworkWithId(1, "title", Instant.now(), null, null))
@@ -38,6 +36,8 @@ internal class ExampleMockTest : BaseTestWithMockk() {
 
     @Test
     fun `test controller without db`() {
+        mockDB()
+
         val service = get<StudentService>()
         assertEquals(1, service.getHomeworks().size)
         assertEquals("title", service.getHomeworks().first().title)

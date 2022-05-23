@@ -34,7 +34,7 @@ internal open class BaseTestWithMockk : BaseTest() {
 
 internal val h2DataSource: ConnectionPoolDataSource
     get() = JdbcDataSource().apply {
-        setURL("jdbc:h2:~/test")
+        setURL("jdbc:h2:mem:test")
         user = "sa"
         password = "sa"
         val conn = connectPool(this)
