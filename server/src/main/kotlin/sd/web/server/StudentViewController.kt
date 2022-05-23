@@ -12,27 +12,27 @@ class StudentViewController : Controller {
         route("/student") {
             get("/homework/") {
                 call.respondHtml {
-                    studentViewService.getHomeworksPage()
+                    studentViewService.getHomeworksPage()()
                 }
             }
 
             get("/homework/{homeworkId}") {
                 val homeworkId = call.parameters["homeworkId"]
                 call.respondHtml {
-                    studentViewService.getHomeworkPage(homeworkId!!.toInt())
+                    studentViewService.getHomeworkPage(homeworkId!!.toInt())()
                 }
             }
 
             get("/submission/") {
                 call.respondHtml {
-                    studentViewService.getSubmissionsPage()
+                    studentViewService.getSubmissionsPage()()
                 }
             }
 
             get("/submission/{submissionId}") {
                 val submissionId = call.parameters["submissionId"]
                 call.respondHtml {
-                    studentViewService.getSubmissionPage(submissionId!!.toInt())
+                    studentViewService.getSubmissionPage(submissionId!!.toInt())()
                 }
             }
         }
