@@ -12,4 +12,12 @@ data class HomeworkWithId(
     val description: String?
 )
 
+data class HomeworkWithCheckerScript(
+    val title: String,
+    val publicationTime: Instant,
+    val deadline: Instant?,
+    val description: String?,
+    val checkScript: String?
+)
+
 fun Homework.addId(id: Int): HomeworkWithId = HomeworkWithId(id, title, publicationTime, deadline, description)

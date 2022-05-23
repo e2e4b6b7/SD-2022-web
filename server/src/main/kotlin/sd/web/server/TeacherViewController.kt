@@ -5,34 +5,27 @@ import io.ktor.server.html.*
 import io.ktor.server.routing.*
 import org.koin.java.KoinJavaComponent.getKoin
 
-class StudentViewController : Controller {
-    private val studentViewService: StudentViewService = getKoin().get()
-
+class TeacherViewController : Controller {
+    private val teacherViewService: TeacherViewService = getKoin().get()
     override fun Routing.config() {
-        route("/student") {
+        route("/teacher") {
             get("/homework/") {
-                call.respondHtml {
-                    studentViewService.getHomeworksPage()
-                }
+                call.respondHtml { teacherViewService.getHomeworksPage() }
             }
 
             get("/homework/{homeworkId}") {
                 val homeworkId = call.parameters["homeworkId"]
-                call.respondHtml {
-                    studentViewService.getHomeworkPage(homeworkId!!.toInt())
-                }
+                call.respondHtml { teacherViewService.getHomeworkPage(homeworkId!!.toInt()) }
             }
 
             get("/submission/") {
-                call.respondHtml {
-                    studentViewService.getSubmissionsPage()
-                }
+                call.respondHtml { teacherViewService.getSubmissionsPage() }
             }
 
             get("/submission/{submissionId}") {
                 val submissionId = call.parameters["submissionId"]
                 call.respondHtml {
-                    studentViewService.getSubmissionPage(submissionId!!.toInt())
+                    teacherViewService.getSubmissionPage(submissionId!!.toInt())
                 }
             }
         }

@@ -1,10 +1,8 @@
 package sd.web.server
 
-import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -14,10 +12,6 @@ import sd.web.server.data.Submission
 class StudentRestController : Controller {
     private val studentService: StudentService = getKoin().get()
     override fun Routing.config() {
-        application.install(ContentNegotiation) {
-            json()
-        }
-
         route("/student") {
             get("/homework/") {
                 call.respond(studentService.getHomeworks())
@@ -25,7 +19,7 @@ class StudentRestController : Controller {
 
             get("/homework/{homeworkId}") {
                 val homeworkId = call.parameters["homeworkId"]
-                call.respond(studentService.getHomeworkById(homeworkId!!.toInt())!!)
+                call.respond(studentService.getHomework(homeworkId!!.toInt())!!)
             }
 
             get("/submission/") {
