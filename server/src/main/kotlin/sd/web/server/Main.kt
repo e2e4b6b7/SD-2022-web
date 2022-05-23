@@ -5,6 +5,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 import org.postgresql.ds.PGConnectionPoolDataSource
 import sd.web.server.checker.CheckerConnectionInfo
+import sd.web.server.checker.CheckerService
 import sd.web.server.db.DBService
 import javax.sql.ConnectionPoolDataSource
 
@@ -26,6 +27,7 @@ val services = module {
     single { StudentViewService() }
     single { TeacherService() }
     single { TeacherViewService() }
+    single { CheckerService() }
 }
 
 val controllers = module {

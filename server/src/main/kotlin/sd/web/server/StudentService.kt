@@ -10,7 +10,8 @@ class StudentService : KoinComponent {
     private val checkerService: CheckerService = getKoin().get()
     fun submit(submission: Submission): Int {
         val submissionId = dbService.addSubmission(submission)
-        TODO("Check of submission and return submission ID")
+        checkerService.checkSubmission(submission.addId(submissionId))
+        return submissionId
     }
 
     fun getHomework(homeworkId: Int) = dbService.homework(homeworkId)
