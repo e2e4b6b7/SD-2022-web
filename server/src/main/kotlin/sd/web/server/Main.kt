@@ -16,22 +16,22 @@ fun dbConnection(config: DBConfig): ConnectionPoolDataSource =
         portNumbers = config.hosts.map { it.port }.toIntArray()
     }
 
+val services = module {
+    single { DBService() }
+    single { StudentService() }
+    single { StudentViewService() }
+}
+
+val controllers = module {
+    single { StudentViewController() } bind Controller::class
+    single { StudentRestController() } bind Controller::class
+}
+
 fun main() {
     val config = getConfig()
 
     val common = module {
         single { dbConnection(config.db) }
-    }
-
-    val services = module {
-        single { DBService() }
-        single { StudentService() }
-        single { StudentViewService() }
-    }
-
-    val controllers = module {
-        single { StudentViewController() } bind Controller::class
-        single { StudentRestController() } bind Controller::class
     }
 
     startKoin {

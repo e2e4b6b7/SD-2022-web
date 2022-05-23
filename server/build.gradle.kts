@@ -6,6 +6,7 @@ plugins {
 val ktorVersion = "2.0.1"
 val slf4jVersion = "1.7.36"
 val exposedVersion = "0.38.1"
+val koinVersion = "3.1.6"
 
 dependencies {
     implementation("io.ktor", "ktor-server-netty-jvm", ktorVersion)
@@ -15,7 +16,8 @@ dependencies {
     implementation("org.slf4j", "slf4j-api", slf4jVersion)
     implementation("org.slf4j", "slf4j-simple", slf4jVersion)
 
-    implementation("io.insert-koin", "koin-core", "3.1.6")
+    implementation("io.insert-koin", "koin-core", koinVersion)
+    testImplementation("io.insert-koin", "koin-test-junit5", koinVersion)
 
     implementation("org.jetbrains.exposed", "exposed-core", exposedVersion)
     implementation("org.jetbrains.exposed", "exposed-dao", exposedVersion)
@@ -26,7 +28,8 @@ dependencies {
 
     implementation("org.yaml", "snakeyaml", "1.30")
 
-    testImplementation(kotlin("test"))
+    testImplementation("com.h2database", "h2", "2.1.212")
+    testImplementation("io.mockk", "mockk", "1.12.4")
 }
 
 tasks.register("fatJar", type = Jar::class) {
