@@ -20,24 +20,41 @@ fun HTML.homeworksListPage(homeworks: List<HomeworkWithId>, role: Role) {
             text("New homework")
             form(action = "${role.root}/homework/", method = FormMethod.post) {
                 name = "New homework"
-                input(type = InputType.text, name = "title") {
+                input(type = InputType.text, name = "title",) {
                     required = true
                     placeholder = "Title"
                 }
+                br
 
-                input(type = InputType.text, name = "description") {
-                    placeholder = "Description"
-                }
-                text("Publication date and time:")
+                label { +"Publication date and time:"}
+                br
                 input(type = InputType.dateTimeLocal, name = "publicationDate") {
                     required = true
                 }
-                text("Deadline:")
+                br
+
+                label { +"Deadline:" }
+                br
                 input(type = InputType.dateTimeLocal, name = "deadline")
+                br
+
+                textArea (cols = "120", rows = "10") {
+                    name = "description"
+                    placeholder = "Description"
+                }
+                br
+
+                textArea (cols = "120", rows = "10"){
+                    name = "checkScript"
+                    required = true
+                    placeholder = "Checking bash script"
+                }
+                br
+
                 input(type = InputType.submit)
             }
         }
-        table {
+        table(classes="border") {
             tr {
                 th { +"ID" }
                 th { +"Title" }
