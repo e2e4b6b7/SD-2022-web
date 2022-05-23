@@ -1,9 +1,9 @@
 package sd.web.runner
 
 import com.google.gson.GsonBuilder
-import com.rabbitmq.client.*
+import com.rabbitmq.client.ConnectionFactory
 import sd.web.server.MessageBrokerConfig
-import sd.web.server.data.*
+import sd.web.server.data.SubmissionWithCheckers
 
 class RabbitMQConsumer(config: MessageBrokerConfig): AutoCloseable {
 
@@ -29,16 +29,15 @@ class RabbitMQConsumer(config: MessageBrokerConfig): AutoCloseable {
         channel.basicConsume(
             queueName,
             true,
-            {
-                _, message ->
+            { _, message ->
                 val task = gson.fromJson(String(message.body), SubmissionWithCheckers::class.java)
                 runner.checkSubmission(task)
-            }
-        ) { _ -> }
+            },
+            { _ -> }
+        )
     }
 
     companion object {
         private val gson = GsonBuilder().create()
     }
-
 }

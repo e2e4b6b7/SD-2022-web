@@ -1,22 +1,23 @@
 package sd.web.runner
 
-import sd.web.server.data.*
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import sd.web.server.data.SubmissionCheck
+import sd.web.server.data.SubmissionWithCheckers
 import sd.web.server.db.DBService
 import java.nio.file.Path
-import kotlin.io.path.createDirectories
-import org.koin.java.KoinJavaComponent.getKoin
 import java.util.concurrent.TimeUnit
-import kotlin.properties.Delegates
+import kotlin.io.path.createDirectories
 
-class Runner {
-    private val dbService: DBService = getKoin().get()
+class Runner : KoinComponent {
+    private val dbService: DBService by inject()
 
     init {
         ROOT_PATH.createDirectories()
     }
 
     private fun cloneRepository(githubUrl: String): Boolean {
-        return ProcessBuilder("git clone $githubUrl".split(" "))
+        return ProcessBuilder("git", "clone", githubUrl)
             .directory(ROOT_PATH.toFile())
             .start()
             .waitFor(10, TimeUnit.MINUTES)
@@ -29,13 +30,12 @@ class Runner {
     }
 
     private fun Process.collectCheckerResult(submissionId: Int, checkerId: Int): SubmissionCheck {
-        lateinit var message: String
-        var mark by Delegates.notNull<Boolean>()
+        val message: String
+        val mark: Boolean
         if (!waitFor(10, TimeUnit.MINUTES)) {
             mark = false
             message = "Failed to execute"
-        }
-        else {
+        } else {
             mark = exitValue() == 0
             message = String(inputStream.readAllBytes())
         }

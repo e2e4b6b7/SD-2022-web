@@ -16,14 +16,24 @@
 
 - Заполнить пользователя и пароль для доступа к базе данных
 
-## Тестирующие процессы
+## Тестирующий процесс
+
+- Собрать fatJar
+  ```bash
+  ./gradlew :runner:fatJar
+  ```
+- Запустить (в директории с `config.yml`)
+  ```bash
+  java -jar runner/build/libs/Runner-0.0.1.jar
+  ``` 
 
 ## Сервер
+
 - Собрать fatJar
   ```bash
   ./gradlew :server:fatJar
   ```
-- Запустить (в репозитории с `config.yml`)
+- Запустить (в директории с `config.yml`)
   ```bash
   java -jar server/build/libs/Server-0.0.1.jar
   ```

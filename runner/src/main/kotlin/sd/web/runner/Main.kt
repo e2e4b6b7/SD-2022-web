@@ -5,13 +5,13 @@ import org.koin.dsl.module
 import sd.web.server.*
 import kotlin.concurrent.thread
 
-private fun startConsumer(config: MessageBrokerConfig) = thread(start = true, isDaemon = false) {
+private fun startConsumer(config: MessageBrokerConfig) = thread {
     RabbitMQConsumer(config).run()
 }
 
-
 fun main() {
     val config = getConfig()
+
     val common = module {
         single { dbConnection(config.db) }
         single { checkerConnectionInfo(config.messageBroker) }
@@ -20,6 +20,7 @@ fun main() {
     startKoin {
         modules(common, services, controllers)
     }
+
     startConsumer(config.messageBroker)
     startConsumer(config.messageBroker)
 }
