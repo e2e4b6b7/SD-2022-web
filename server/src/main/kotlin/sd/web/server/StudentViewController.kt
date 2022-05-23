@@ -3,10 +3,11 @@ package sd.web.server
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.routing.*
-import org.koin.java.KoinJavaComponent.getKoin
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class StudentViewController : Controller {
-    private val studentViewService: StudentViewService = getKoin().get()
+class StudentViewController : Controller, KoinComponent {
+    private val studentViewService: StudentViewService by inject()
 
     override fun Routing.config() {
         route("/student") {
@@ -17,9 +18,9 @@ class StudentViewController : Controller {
             }
 
             get("/homework/{homeworkId}") {
-                val homeworkId = call.parameters["homeworkId"]
+                val homeworkId = call.parameters["homeworkId"]!!.toInt()
                 call.respondHtml {
-                    studentViewService.getHomeworkPage(homeworkId!!.toInt())()
+                    studentViewService.getHomeworkPage(homeworkId)()
                 }
             }
 
@@ -30,9 +31,9 @@ class StudentViewController : Controller {
             }
 
             get("/submission/{submissionId}") {
-                val submissionId = call.parameters["submissionId"]
+                val submissionId = call.parameters["submissionId"]!!.toInt()
                 call.respondHtml {
-                    studentViewService.getSubmissionPage(submissionId!!.toInt())()
+                    studentViewService.getSubmissionPage(submissionId)()
                 }
             }
         }

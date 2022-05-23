@@ -7,6 +7,7 @@ import org.jetbrains.exposed.sql.Database.Companion.connectPool
 import org.jetbrains.exposed.sql.statements.InsertStatement
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 import sd.web.server.data.*
 import sd.web.server.db.tables.HomeworkCheckers
 import sd.web.server.db.tables.Checker as CheckerTable
@@ -15,7 +16,7 @@ import sd.web.server.db.tables.Submission as SubmissionTable
 import sd.web.server.db.tables.SubmissionCheck as SubmissionCheckTable
 
 class DBService : KoinComponent {
-    private val db = connectPool(getKoin().get())
+    private val db by lazy { connectPool(get()) }
 
     private fun <T : IntIdTable> T.singleInsert(body: T.(InsertStatement<EntityID<Int>>) -> Unit): Int {
         return transaction(db) { insertAndGetId(body).value }

@@ -4,11 +4,12 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import org.koin.java.KoinJavaComponent.getKoin
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import sd.web.server.data.*
 
-class TeacherRestController : Controller {
-    private val teacherService: TeacherService = getKoin().get()
+class TeacherRestController : Controller, KoinComponent {
+    private val teacherService: TeacherService by inject()
 
     override fun Routing.config() {
         route("/teacher/api") {
@@ -18,19 +19,21 @@ class TeacherRestController : Controller {
 
             post("/homework/") {
                 val homeworkWithCheckerScript = call.receive<HomeworkWithCheckerScript>()
-                val homeworkId = teacherService.addHomework(Homework(
-                    homeworkWithCheckerScript.title,
-                    homeworkWithCheckerScript.publicationTime,
-                    homeworkWithCheckerScript.deadline,
-                    homeworkWithCheckerScript.description
-                ))
+                val homeworkId = teacherService.addHomework(
+                    Homework(
+                        homeworkWithCheckerScript.title,
+                        homeworkWithCheckerScript.publicationTime,
+                        homeworkWithCheckerScript.deadline,
+                        homeworkWithCheckerScript.description
+                    )
+                )
                 val checkerId = teacherService.addChecker(homeworkId, Checker(homeworkWithCheckerScript.checkScript!!))
                 call.respond(Pair(homeworkId, checkerId))
             }
 
             get("/homework/{homeworkId}") {
-                val homeworkId = call.parameters["homeworkId"]
-                call.respond(teacherService.getHomework(homeworkId!!.toInt())!!)
+                val homeworkId = call.parameters["homeworkId"]!!.toInt()
+                call.respond(teacherService.getHomework(homeworkId)!!)
             }
 
             get("/submission/") {
@@ -38,8 +41,8 @@ class TeacherRestController : Controller {
             }
 
             get("/submission/{submissionId}") {
-                val submissionId = call.parameters["submissionId"]
-                call.respond(teacherService.getSubmissionWithChecks(submissionId!!.toInt())!!)
+                val submissionId = call.parameters["submissionId"]!!.toInt()
+                call.respond(teacherService.getSubmissionWithChecks(submissionId)!!)
             }
         }
     }

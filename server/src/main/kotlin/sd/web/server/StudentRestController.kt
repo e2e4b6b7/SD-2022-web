@@ -1,16 +1,16 @@
 package sd.web.server
 
-import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
-import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import org.koin.java.KoinJavaComponent.getKoin
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import sd.web.server.data.Submission
 
-class StudentRestController : Controller {
-    private val studentService: StudentService = getKoin().get()
+class StudentRestController : Controller, KoinComponent {
+    private val studentService: StudentService by inject()
+
     override fun Routing.config() {
         route("/student/api") {
             get("/homework/") {
@@ -18,8 +18,8 @@ class StudentRestController : Controller {
             }
 
             get("/homework/{homeworkId}") {
-                val homeworkId = call.parameters["homeworkId"]
-                call.respond(studentService.getHomework(homeworkId!!.toInt())!!)
+                val homeworkId = call.parameters["homeworkId"]!!.toInt()
+                call.respond(studentService.getHomework(homeworkId)!!)
             }
 
             get("/submission/") {
@@ -27,8 +27,8 @@ class StudentRestController : Controller {
             }
 
             get("/submission/{submissionId}") {
-                val submissionId = call.parameters["submissionId"]
-                call.respond(studentService.getSubmissionWithChecks(submissionId!!.toInt())!!)
+                val submissionId = call.parameters["submissionId"]!!.toInt()
+                call.respond(studentService.getSubmissionWithChecks(submissionId)!!)
             }
 
             post("/submission/") {

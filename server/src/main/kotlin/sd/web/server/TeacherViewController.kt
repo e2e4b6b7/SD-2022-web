@@ -3,10 +3,12 @@ package sd.web.server
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.routing.*
-import org.koin.java.KoinJavaComponent.getKoin
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class TeacherViewController : Controller {
-    private val teacherViewService: TeacherViewService = getKoin().get()
+class TeacherViewController : Controller, KoinComponent {
+    private val teacherViewService: TeacherViewService by inject()
+
     override fun Routing.config() {
         route("/teacher") {
             get("/homework/") {
