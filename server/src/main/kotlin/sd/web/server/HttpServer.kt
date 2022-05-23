@@ -13,11 +13,11 @@ class HttpServer : KoinComponent {
     fun start(port: Int) {
         embeddedServer(Netty, port = port) {
             install(StatusPages) {
-                exception<IllegalArgumentException> { call, _ ->
-                    call.respond(HttpStatusCode.BadRequest)
+                exception<IllegalArgumentException> { call, e ->
+                    call.respond(HttpStatusCode.BadRequest, e.message ?: "")
                 }
-                exception<Exception> { call, _ ->
-                    call.respond(HttpStatusCode.InternalServerError)
+                exception<Exception> { call, e ->
+                    call.respond(HttpStatusCode.InternalServerError, e.message ?: "")
                 }
             }
             routing {
