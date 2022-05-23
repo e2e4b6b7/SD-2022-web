@@ -11,7 +11,7 @@ class TeacherRestController : Controller {
     private val teacherService: TeacherService = getKoin().get()
 
     override fun Routing.config() {
-        route("/teacher") {
+        route("/teacher/api") {
             get("/homework/") {
                 call.respond(teacherService.getHomeworks())
             }

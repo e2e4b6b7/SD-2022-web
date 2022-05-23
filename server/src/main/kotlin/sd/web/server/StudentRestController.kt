@@ -12,7 +12,7 @@ import sd.web.server.data.Submission
 class StudentRestController : Controller {
     private val studentService: StudentService = getKoin().get()
     override fun Routing.config() {
-        route("/student") {
+        route("/student/api") {
             get("/homework/") {
                 call.respond(studentService.getHomeworks())
             }
