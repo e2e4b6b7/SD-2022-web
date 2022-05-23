@@ -9,7 +9,7 @@ class StudentViewService : KoinComponent {
     private val studentService: StudentService = getKoin().get()
 
     fun getHomeworkPage(homeworkId: Int): HTML.() -> Unit {
-        return { homeworkPage(studentService.getHomeworkById(homeworkId)?.addId(homeworkId), Role.STUDENT) }
+        return { homeworkPage(studentService.getHomework(homeworkId)?.addId(homeworkId), Role.STUDENT) }
     }
 
     fun getHomeworksPage(): HTML.() -> Unit {

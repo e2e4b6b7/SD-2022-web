@@ -24,11 +24,15 @@ val services = module {
     single { DBService() }
     single { StudentService() }
     single { StudentViewService() }
+    single { TeacherService() }
+    single { TeacherViewService() }
 }
 
 val controllers = module {
     single { StudentViewController() } bind Controller::class
     single { StudentRestController() } bind Controller::class
+    single { TeacherViewController() } bind Controller::class
+    single { TeacherRestController() } bind Controller::class
 }
 
 fun main() {

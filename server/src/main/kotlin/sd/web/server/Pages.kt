@@ -6,7 +6,7 @@ import sd.web.server.data.*
 import java.time.Instant
 
 enum class Role(val root: String) {
-    STUDENT("/student"), TEACHER("teacher")
+    STUDENT("/student"), TEACHER("/teacher")
 }
 
 fun HTML.homeworksListPage(homeworks: List<HomeworkWithId>, role: Role) {
