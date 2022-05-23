@@ -28,7 +28,7 @@ class TeacherRestController : Controller, KoinComponent {
                     formParams["description"]!!
                 ))
                 val checkerId = teacherService.addChecker(homeworkId, Checker(formParams["checkScript"]!!))
-                call.respond(Pair(homeworkId, checkerId))
+                call.respondRedirect("/teacher/homework/")
             }
 
             get("/homework/{homeworkId}") {

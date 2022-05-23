@@ -39,7 +39,8 @@ class StudentRestController : Controller, KoinComponent {
                     formParams["time"]!!.toInstant(),
                     formParams["solution"]!!
                 )
-                call.respond(studentService.submit(submission))
+                studentService.submit(submission)
+                call.respondRedirect("/student/submission/")
             }
         }
     }
