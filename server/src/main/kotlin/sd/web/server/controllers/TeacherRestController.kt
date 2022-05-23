@@ -8,6 +8,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import sd.web.server.data.*
 import sd.web.server.services.rest.TeacherService
+import java.time.*
 
 class TeacherRestController : Controller, KoinComponent {
     private val teacherService: TeacherService by inject()
@@ -19,16 +20,14 @@ class TeacherRestController : Controller, KoinComponent {
             }
 
             post("/homework/") {
-                val homeworkWithCheckerScript = call.receive<HomeworkWithCheckerScript>()
-                val homeworkId = teacherService.addHomework(
-                    Homework(
-                        homeworkWithCheckerScript.title,
-                        homeworkWithCheckerScript.publicationTime,
-                        homeworkWithCheckerScript.deadline,
-                        homeworkWithCheckerScript.description
-                    )
-                )
-                val checkerId = teacherService.addChecker(homeworkId, Checker(homeworkWithCheckerScript.checkScript!!))
+                val formParams = call.receiveParameters()
+                val homeworkId = teacherService.addHomework(Homework(
+                    formParams["title"]!!,
+                    formParams["publicationTime"]!!.toInstant(),
+                    formParams["deadline"]!!.toInstant(),
+                    formParams["description"]!!
+                ))
+                val checkerId = teacherService.addChecker(homeworkId, Checker(formParams["checkScript"]!!))
                 call.respond(Pair(homeworkId, checkerId))
             }
 

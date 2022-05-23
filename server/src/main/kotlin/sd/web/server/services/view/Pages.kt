@@ -5,6 +5,7 @@ import kotlinx.html.*
 import sd.web.server.data.HomeworkWithId
 import sd.web.server.data.SubmissionWithChecks
 import java.time.Instant
+import java.time.LocalDateTime
 
 enum class Role(val root: String) {
     STUDENT("/student"), TEACHER("/teacher")
@@ -29,7 +30,7 @@ fun HTML.homeworksListPage(homeworks: List<HomeworkWithId>, role: Role) {
 
                 label { +"Publication date and time:" }
                 br
-                input(type = InputType.dateTimeLocal, name = "publicationDate") {
+                input(type = InputType.dateTimeLocal, name = "publicationTime") {
                     required = true
                 }
                 br
@@ -124,7 +125,7 @@ fun HTML.homeworkPage(homework: HomeworkWithId?, role: Role) {
                         value = homework.id.toString()
                     }
                     input(type = InputType.hidden, name = "time") {
-                        value = Instant.now().toHttpDateString()
+                        value = LocalDateTime.now().toString()
                     }
                     input(type = InputType.submit)
                 }

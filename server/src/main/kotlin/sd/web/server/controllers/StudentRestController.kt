@@ -33,7 +33,12 @@ class StudentRestController : Controller, KoinComponent {
             }
 
             post("/submission/") {
-                val submission = call.receive<Submission>()
+                val formParams = call.receiveParameters()
+                val submission = Submission(
+                    formParams["homeworkId"]!!.toInt(),
+                    formParams["time"]!!.toInstant(),
+                    formParams["solution"]!!
+                )
                 call.respond(studentService.submit(submission))
             }
         }
