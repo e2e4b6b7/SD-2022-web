@@ -1,8 +1,9 @@
-package sd.web.server
+package sd.web.server.services.view
 
 import io.ktor.server.http.*
 import kotlinx.html.*
-import sd.web.server.data.*
+import sd.web.server.data.HomeworkWithId
+import sd.web.server.data.SubmissionWithChecks
 import java.time.Instant
 
 enum class Role(val root: String) {

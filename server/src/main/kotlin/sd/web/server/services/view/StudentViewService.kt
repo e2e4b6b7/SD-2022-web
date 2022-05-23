@@ -1,9 +1,10 @@
-package sd.web.server
+package sd.web.server.services.view
 
 import kotlinx.html.HTML
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import sd.web.server.data.addId
+import sd.web.server.services.rest.StudentService
 import java.time.Instant
 
 class StudentViewService : KoinComponent {

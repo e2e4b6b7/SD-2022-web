@@ -6,7 +6,12 @@ import org.koin.dsl.module
 import org.postgresql.ds.PGConnectionPoolDataSource
 import sd.web.server.checker.CheckerConnectionInfo
 import sd.web.server.checker.CheckerService
+import sd.web.server.controllers.*
 import sd.web.server.db.DBService
+import sd.web.server.services.rest.StudentService
+import sd.web.server.services.rest.TeacherService
+import sd.web.server.services.view.StudentViewService
+import sd.web.server.services.view.TeacherViewService
 import javax.sql.ConnectionPoolDataSource
 
 fun dbConnection(config: DBConfig): ConnectionPoolDataSource =

@@ -1,4 +1,4 @@
-package sd.web.server
+package sd.web.server.controllers
 
 import io.ktor.server.routing.*
 

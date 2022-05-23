@@ -7,6 +7,7 @@ import org.koin.test.mock.declareMock
 import sd.web.server.data.Homework
 import sd.web.server.data.HomeworkWithId
 import sd.web.server.db.DBService
+import sd.web.server.services.rest.StudentService
 import java.time.Instant
 import kotlin.test.assertEquals
 

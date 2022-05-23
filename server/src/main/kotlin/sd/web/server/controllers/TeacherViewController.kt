@@ -1,10 +1,11 @@
-package sd.web.server
+package sd.web.server.controllers
 
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.routing.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import sd.web.server.services.view.TeacherViewService
 
 class TeacherViewController : Controller, KoinComponent {
     private val teacherViewService: TeacherViewService by inject()

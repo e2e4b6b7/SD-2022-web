@@ -10,6 +10,7 @@ import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.core.component.KoinComponent
+import sd.web.server.controllers.Controller
 
 class HttpServer : KoinComponent {
     fun start(port: Int) {

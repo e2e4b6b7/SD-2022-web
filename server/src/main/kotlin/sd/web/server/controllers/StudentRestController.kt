@@ -1,4 +1,4 @@
-package sd.web.server
+package sd.web.server.controllers
 
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -7,6 +7,7 @@ import io.ktor.server.routing.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import sd.web.server.data.Submission
+import sd.web.server.services.rest.StudentService
 
 class StudentRestController : Controller, KoinComponent {
     private val studentService: StudentService by inject()
