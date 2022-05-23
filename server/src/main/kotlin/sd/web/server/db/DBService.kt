@@ -78,7 +78,8 @@ class DBService : KoinComponent {
     }
 
     fun homeworkCheckers(homeworkId: Int): List<CheckerWithId> = transaction(db) {
-        HomeworkCheckers.select { HomeworkCheckers.homeworkId eq homeworkId }.map { it.asCheckerWithId }
+        (HomeworkCheckers innerJoin CheckerTable).select { HomeworkCheckers.homeworkId eq homeworkId }
+            .map { it.asCheckerWithId }
     }
 
     fun submissionChecks(submissionId: Int): List<SubmissionCheck> = transaction(db) {
